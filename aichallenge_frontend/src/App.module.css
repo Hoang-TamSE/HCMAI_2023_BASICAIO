@@ -1,0 +1,44 @@
+.container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+}
+
+.search_space {
+    width: 30%;
+    height: 100%;
+}
+
+.result_space {
+    width: 70%;
+    height: 100%;
+    overflow: auto;
+    background-color: #2b2727;
+    margin-left: 15px;
+}
+
+.submission_space {
+    width: 15%;
+}
+
+.submission_space h3 {
+    text-align: center;
+}
+
+.logo {
+    width: 100%;
+    font-family: 'Silkscreen', cursive;
+    font-size: 3rem;
+    text-align: center;
+}
+.image_list_mini_container {
+    width: 30%;
+    height: 35%;
+    overflow: auto;
+    background-color: #2b2727;
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    right: 5px;
+}
