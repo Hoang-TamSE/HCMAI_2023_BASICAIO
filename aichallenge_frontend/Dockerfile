@@ -1,5 +1,5 @@
 # get the base node image
-FROM node:alpine as builder
+FROM node:14
 
 # set the working dir for container
 WORKDIR /frontend
@@ -8,7 +8,7 @@ WORKDIR /frontend
 COPY ./package.json /frontend
 
 # install npm dependencies
-RUN npm install -g npm@9.8.1 --force
+RUN npm i --legacy-peer-deps
 # copy other project files
 COPY . .
 
