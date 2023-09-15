@@ -45,6 +45,7 @@ function App() {
     if (response.ok) {
         const data = await response.json();
         setDataList(data)
+        console.log("aaaaaaaaaaaaa")
         // setDataList(data);
         // setQuery(query);
     }

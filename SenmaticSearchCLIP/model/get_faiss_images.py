@@ -49,13 +49,13 @@ def faiss_image(query):
         encoded_images[int(id)] = get_response_image(id)
     return encoded_images
 
-def knn(query):
+def knn(id_image):
     encoded_images = {}
     
-    text = query
 
-    scores, _, infos_query, images = FAISS_TEST.image_search(text, k=200)
+    scores, idx, infos_query, images = FAISS_TEST.image_search(int(id_image), k=200)
 
-    for image in images:
-        encoded_images[image] = get_response_image(os.path.join(IMAGES_PATH, image))
+    for id in idx:
+        encoded_images[int(id)] = get_response_image(id)
     return encoded_images
+

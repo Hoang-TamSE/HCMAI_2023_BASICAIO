@@ -16,7 +16,7 @@ def get_imgPath():
     imgPath = data['imgPath']
     print(imgPath)
     encoded_images = []
-    encoded_images = knn(query=imgPath)
+    encoded_images = knn(imgPath)
     return jsonify({'data': encoded_images})
 
 @app.route('/', methods=["POST"])

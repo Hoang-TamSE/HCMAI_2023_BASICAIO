@@ -38,19 +38,16 @@ class Myfaiss:
 
         plt.show()
         
-    def image_search( self,id_query, k): 
-        
-        image = self.preprocess(Image.open(id_query)).unsqueeze(0).to(self.device)
-        with torch.no_grad():
-          image_features = self.model.encode_image(image).detach().cpu().numpy()
+    def image_search(self, id_query, k): 
+        query_feats = self.index.reconstruct(id_query).reshape(1,-1)
 
-        scores, idx_image = self.index.search(image_features, k=k)
+        scores, idx_image = self.index.search(query_feats, k=k)
         idx_image = idx_image.flatten()
 
         infos_query = list(map(self.id2img_fps.get, list(idx_image)))
         image_paths = [info for info in infos_query]
 
-
+        
         return scores, idx_image, infos_query, image_paths
         
     def text_search(self, text, k):
