@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
-from model.get_faiss_images import faiss_image, knn
+from model.get_faiss_images import faiss_image, knn, make_csv_file
+import csv
 # # from model.retrieval import get_image_list
 app = Flask(__name__)
 
@@ -18,6 +19,16 @@ def get_imgPath():
     encoded_images = []
     encoded_images = knn(imgPath)
     return jsonify({'data': encoded_images})
+
+
+
+
+@app.route('/makefile', methods=["POST"])
+def make_file():
+    data = request.get_json()
+    imgPath = data['idx_images']
+    make_csv_file(imgPath)
+    return "okii"
 
 @app.route('/', methods=["POST"])
 def hello():

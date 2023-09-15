@@ -20,6 +20,7 @@ function App() {
   const [isEnabled, setIsEnabled] = useState(true);
   const [isAnd, setIsAnd] = useState(true);
   const [imgPath, setImgPath] = useState("");
+  const [clickedImages, setClickedImages] = useState([]);
 
   // const location = useLocation();
   // const data = location.state?.dataList;
@@ -29,6 +30,7 @@ function App() {
   //     setDataList(location.state.dataList);
   //   }
   // }, [location]);
+
 
   
 
@@ -90,8 +92,8 @@ useEffect(() => {
         </div>
       </div>
       <div className={classes.result_space}>
-        <TextQueryForm isEnabled={isEnabled} setDataList={setDataList} setClicked={setClicked} setQuery={setQuery} sketch={sketch} />
-        <ImageList dataList={dataList} clicked={clicked} query={query} />
+        <TextQueryForm isEnabled={isEnabled} setDataList={setDataList} setClicked={setClicked} setQuery={setQuery} sketch={sketch} clickedImages={clickedImages} />
+        <ImageList dataList={dataList} clicked={clicked} query={query} setClickedImages={setClickedImages} />
       </div>
     </div>
   );

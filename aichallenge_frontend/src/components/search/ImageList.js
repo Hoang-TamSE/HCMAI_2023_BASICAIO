@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./ImageList.module.css";
@@ -12,12 +12,16 @@ import {
 import {LazyLoadImage} from "react-lazy-load-image-component"
 import "bootstrap/dist/css/bootstrap.min.css";
 
-function ImageList({ dataList, clicked, query }) {
+function ImageList({ dataList, clicked, query, setClickedImages }) {
   const [images, setImages] = useState([]);
+
+  const handleImageIdx = useCallback((id) => {
+    setClickedImages((prevList) => [...prevList, id]);
+  }, [setClickedImages]);
 
   useEffect(() => {
     let counter = 0;
-
+    
     const im = Object.entries(dataList["data"]).map((item, index) => {
       return (
         <Col
@@ -34,6 +38,7 @@ function ImageList({ dataList, clicked, query }) {
               effect="opacity"
               src={`data:image/png;base64,${item[1]}`}
               alt={`Image ${counter}`}
+              onClick={() => handleImageIdx(item[0])}
             />
             <div style={{ position: "relative", bottom: "3.5rem"}}>
               <Link to={{
@@ -47,7 +52,7 @@ function ImageList({ dataList, clicked, query }) {
       );
     });
     setImages(im);
-  }, [dataList, clicked, query]);
+  }, [dataList, clicked, query, handleImageIdx]);
 
   return (
     <div>
@@ -58,20 +63,10 @@ function ImageList({ dataList, clicked, query }) {
   );
 }
 
-
-// function ImageListRoutes({ dataList }) {
-//   return (
-//     <Routes>
-//       <Route path="/knn/:id" element={<App data={dataList} />} />
-//     </Routes>
-//   );
-// }
-
 export default function ImageListWithRoutes(props) {
   return (
     <div>
       <ImageList {...props} />
-      {/* <ImageListRoutes {...props} /> */}
     </div>
   );
 }
