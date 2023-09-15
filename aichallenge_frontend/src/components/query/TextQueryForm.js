@@ -63,8 +63,10 @@ function TextQueryForm({ setDataList, setClicked, setQuery, sketch, isEnabled, c
                 <input className={classes.input} type="text" value={text} onChange={handleQueryChange}/> 
                 <button className={classes.scoreBtn}>Submit</button>
             </form>
-            <form onSubmit={handleMakeFileSubmit} >
+            <form onSubmit={handleMakeFileSubmit} className={classes.form} >
                  <button className={classes.scoreBtn}>Make File</button>
+                 <label className={classes.label}>{clickedImages.length}</label>
+
             </form>
 
 
