@@ -13,7 +13,7 @@ from model.my_faiss import Myfaiss
 from model.translation import Translation
 from utils.query_db import get_image_path
 import csv
-
+import json
 
 UPLOAD_FOLDER = "./static/data"
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])        
@@ -23,12 +23,27 @@ DIR_NAME = os.path.dirname(__file__)
 ROOT = os.path.abspath(os.path.join(DIR_NAME, os.pardir))
 IMAGES_PATH = os.path.join(ROOT, "data")
 
+
 DICT_IMAGE_PATH = get_image_path()
 BIN_FILE=os.path.join(ROOT + "/config/faiss_normal_ViT.bin")
 
 FAISS_TEST= Myfaiss(BIN_FILE, DICT_IMAGE_PATH, DEVICE, MODEL, Translation(), PREPROCESS)
 
+METADATA = {}
 
+with open("./model/metadata.json", "r", encoding="utf-8") as file:
+        METADATA = json.load(file)
+
+
+
+def make_url(idx):
+        file_name = DICT_IMAGE_PATH[int(idx)].split("\\")[-1]
+        video_path = file_name.split("_")[0] + "_" + file_name.split("_")[1]
+        id = file_name.split("_")[-1].split(".")[0]
+        second_by_frameID = int(int(id) / 25)
+        url = METADATA[video_path]
+        url = url + f'&t={second_by_frameID}'
+        return url
 def get_response_image(id):
     image_name = DICT_IMAGE_PATH[id]
     img = cv2.imread(image_name)
@@ -69,4 +84,5 @@ def knn(id_image):
     for id in idx:
         encoded_images[int(id)] = get_response_image(id)
     return encoded_images
+
 

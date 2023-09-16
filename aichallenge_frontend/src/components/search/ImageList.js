@@ -19,6 +19,28 @@ function ImageList({ dataList, clicked, query, setClickedImages }) {
     setClickedImages((prevList) => [...prevList, id]);
   }, [setClickedImages]);
 
+
+  const handleMakeURL = (id) => {
+
+    const fetch_make_file = async () => {
+        const response = await fetch(`http://localhost:5000/geturl`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({id: id})
+        });
+        console.log(id)
+        if (response.ok) {
+            const data = await response.json();
+            var url = data['data']
+            window.open(url, "_blank");
+            console.log("okiiii")
+        }
+    };
+    fetch_make_file();
+};
+
   useEffect(() => {
     let counter = 0;
     
@@ -47,6 +69,10 @@ function ImageList({ dataList, clicked, query, setClickedImages }) {
               }} target="_blank" rel="noopener noreferrer">
                 <Button className="image-button btn-sm float-start">KNN</Button>
               </Link>
+            </div>
+
+            <div style={{ position: "relative", bottom: "3.5rem"}}>
+                <Button onClick={() => handleMakeURL(item[0])} className="image-button btn-sm float-end">Show</Button>
             </div>
         </Col>
       );
