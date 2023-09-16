@@ -58,7 +58,7 @@ def make_csv_file(list_id):
         for i in list_id:
             file_name = DICT_IMAGE_PATH[int(i)].split("\\")[-1]
             video_path = file_name.split("_")[0] + "_" + file_name.split("_")[1]
-            id = file_name.split("_")[-1]
+            id = int(file_name.split("_")[-1].split(".")[0])
             csv_writer.writerow([video_path, ' ' + str(id)])
 
 
@@ -69,7 +69,7 @@ def faiss_image(query):
     
     text = query
 
-    scores, idx, infos_query, images = FAISS_TEST.text_search(text, k=200)
+    scores, idx, infos_query, images = FAISS_TEST.text_search(text, k=400)
 
     for id in idx:
         encoded_images[int(id)] = get_response_image(id)
@@ -79,7 +79,7 @@ def knn(id_image):
     encoded_images = {}
     
 
-    scores, idx, infos_query, images = FAISS_TEST.image_search(int(id_image), k=200)
+    scores, idx, infos_query, images = FAISS_TEST.image_search(int(id_image), k=400)
 
     for id in idx:
         encoded_images[int(id)] = get_response_image(id)
