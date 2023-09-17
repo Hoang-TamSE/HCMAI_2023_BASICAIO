@@ -83,7 +83,7 @@ def faiss_image(query):
     
     text = query
 
-    scores, idx, infos_query, images = FAISS_TEST.text_search(text, k=2000)
+    scores, idx, infos_query, images = FAISS_TEST.text_search(text, k=400)
 
     for id in idx:
         encoded_images[int(id)] = get_response_image(id)
@@ -93,7 +93,7 @@ def knn(id_image):
     encoded_images = {}
     
 
-    scores, idx, infos_query, images = FAISS_TEST.image_search(int(id_image), k=2000)
+    scores, idx, infos_query, images = FAISS_TEST.image_search(int(id_image), k=400)
 
     for id in idx:
         encoded_images[int(id)] = get_response_image(id)
