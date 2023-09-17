@@ -41,7 +41,8 @@ function App() {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({imgPath})
+                body: JSON.stringify({imgPath, isEnabled: isEnabled})
+
             });
 
     if (response.ok) {
@@ -92,7 +93,7 @@ useEffect(() => {
         </div>
       </div>
       <div className={classes.result_space}>
-        <TextQueryForm isEnabled={isEnabled} setDataList={setDataList} setClicked={setClicked} setQuery={setQuery} sketch={sketch} clickedImages={clickedImages} />
+        <TextQueryForm isEnabled={isEnabled} setDataList={setDataList} setClicked={setClicked} setQuery={setQuery} sketch={sketch} clickedImages={clickedImages} setClickedImages={setClickedImages} />
         <ImageList dataList={dataList} clicked={clicked} query={query} setClickedImages={setClickedImages} />
       </div>
     </div>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import classes from "./TextQueryForm.module.css";
 
 
-function TextQueryForm({ setDataList, setClicked, setQuery, sketch, isEnabled, clickedImages }) {
+function TextQueryForm({ setDataList, setClicked, setQuery, sketch, isEnabled, clickedImages, setClickedImages }) {
     const [imageList, setImageList] = useState({ data: [] });
     const [text, setText] = useState(""); // <-- Add state for the query input
 
@@ -49,10 +49,19 @@ function TextQueryForm({ setDataList, setClicked, setQuery, sketch, isEnabled, c
         };
         fetch_make_file();
     };
+    const handleClean = (event) => {
+        event.preventDefault();
+        console.log("aaaaaaaaaaaaaaaaaaaaaaaaa")
+        setClickedImages([]);
+    };
 
     const handleQueryChange = (event) => {
         setText(event.target.value); // <-- Update the query state when the input value changes
     };
+
+    const handleDeleteLastValue = () => {
+        setClickedImages((prevList) => prevList.slice(0, prevList.length - 1));
+      };
 
     // ...
 
@@ -63,11 +72,12 @@ function TextQueryForm({ setDataList, setClicked, setQuery, sketch, isEnabled, c
                 <input className={classes.input} type="text" value={text} onChange={handleQueryChange}/> 
                 <button className={classes.scoreBtn}>Submit</button>
             </form>
-            <form onSubmit={handleMakeFileSubmit} className={classes.form} >
-                 <button className={classes.scoreBtn}>Make File</button>
-                 <label className={classes.label}>{clickedImages.length}</label>
-
-            </form>
+            <div className={classes.form} >
+                 <button onClick={handleMakeFileSubmit} className={classes.scoreBtn}>Make File</button>
+                 <button onClick={handleClean} className={classes.scoreBtn}>Clean</button>
+                 <button onClick={handleDeleteLastValue} className={classes.scoreBtn}>Undo</button>
+                 <label  className={classes.label}>{clickedImages.length}</label>
+            </div>
 
 
         </div>

@@ -44,6 +44,20 @@ def make_url(idx):
         url = METADATA[video_path]
         url = url + f'&t={second_by_frameID}'
         return url
+
+def get_near_images(id):
+    if id <= 50:
+          id = 0
+    else:
+         id -= 50
+    encoded_images = {}
+
+    for i in range(id, id + 100):
+        if i >= 809694:
+             break
+        else:
+             encoded_images[int(i)] = get_response_image(int(i))
+    return encoded_images    
 def get_response_image(id):
     image_name = DICT_IMAGE_PATH[id]
     img = cv2.imread(image_name)
@@ -69,7 +83,7 @@ def faiss_image(query):
     
     text = query
 
-    scores, idx, infos_query, images = FAISS_TEST.text_search(text, k=400)
+    scores, idx, infos_query, images = FAISS_TEST.text_search(text, k=2000)
 
     for id in idx:
         encoded_images[int(id)] = get_response_image(id)
@@ -79,10 +93,11 @@ def knn(id_image):
     encoded_images = {}
     
 
-    scores, idx, infos_query, images = FAISS_TEST.image_search(int(id_image), k=400)
+    scores, idx, infos_query, images = FAISS_TEST.image_search(int(id_image), k=2000)
 
     for id in idx:
         encoded_images[int(id)] = get_response_image(id)
     return encoded_images
+
 
 
