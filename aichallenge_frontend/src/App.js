@@ -93,9 +93,13 @@ useEffect(() => {
         </div>
       </div>
       <div className={classes.result_space}>
-        <TextQueryForm isEnabled={isEnabled} setDataList={setDataList} setClicked={setClicked} setQuery={setQuery} sketch={sketch} clickedImages={clickedImages} setClickedImages={setClickedImages} />
-        <ImageList dataList={dataList} clicked={clicked} query={query} setClickedImages={setClickedImages} />
-      </div>
+  <div className={classes.header}>
+    <TextQueryForm isEnabled={isEnabled} setDataList={setDataList} setClicked={setClicked} setQuery={setQuery} sketch={sketch} clickedImages={clickedImages} setClickedImages={setClickedImages} />
+  </div>
+  <div className={classes.imageListContainer}>
+    <ImageList dataList={dataList} clicked={clicked} query={query} setClickedImages={setClickedImages} />
+  </div>
+</div>
     </div>
   );
 }
