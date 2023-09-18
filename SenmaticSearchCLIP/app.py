@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
-from model.get_faiss_images import faiss_image, knn, make_csv_file, make_url
+from model.get_faiss_images import faiss_image, knn, make_csv_file, make_url, get_near_images
 import csv
 # # from model.retrieval import get_image_list
 app = Flask(__name__)
@@ -14,10 +14,19 @@ CORS(app)
 @app.route('/imgPath', methods=["POST"])
 def get_imgPath():
     data = request.get_json()
-    imgPath = data['imgPath']
-    print(imgPath)
+    imgPath = int(data['imgPath'])
+    isEnabled = data['isEnabled']
+    print(isEnabled)
     encoded_images = []
-    encoded_images = knn(imgPath)
+    if isEnabled:
+        near_images = get_near_images(imgPath)
+        knn_images = knn(imgPath)
+        combined_dict = {**near_images, **knn_images}
+        encoded_images = combined_dict
+
+    else:
+        encoded_images = knn(imgPath)
+    # print(encoded_images)
     return jsonify({'data': encoded_images})
 
 @app.route('/geturl', methods=["POST"])

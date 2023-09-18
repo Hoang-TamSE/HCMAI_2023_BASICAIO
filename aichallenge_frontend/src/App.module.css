@@ -42,3 +42,18 @@
     left: 5px;
     right: 5px;
 }
+
+.result_space {
+    position: relative;
+  }
+  
+  .header {
+    position: sticky;
+    top: 0;
+    background-color: #2b2727;
+    z-index: 1;
+  }
+  
+  .imageListContainer {
+    margin-top: 10px;
+  }
