@@ -50,7 +50,7 @@ def get_script_images(text):
             # print(get_image_path_by_script(image_path))
         result = DICT_IMAGE_PATH_PD[DICT_IMAGE_PATH_PD['ImagePath'].str.contains(image_path)]
         if result['ImageID'].empty != True: 
-            idx.append(result['ImageID'])
+            idx.extend(result['ImageID'].tolist())
     print(idx)
     # return encoded_images    
 
@@ -124,4 +124,5 @@ def knn(id_image):
 
 
 
-get_script_images("mùa thu")
+# get_script_images("mùa thu")
+print(make_url(51780))
