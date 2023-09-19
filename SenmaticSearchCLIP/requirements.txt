@@ -14,3 +14,4 @@ Flask-MySQLdb==1.0.1
 mysql-connector-python==8.1.0
 glob2==0.4.1
 #git+https://github.com/openai/CLIP.git
+youtube-transcript-api==0.6.1

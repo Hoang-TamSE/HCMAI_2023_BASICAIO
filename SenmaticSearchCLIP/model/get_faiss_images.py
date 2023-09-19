@@ -5,15 +5,17 @@ import torch
 import clip
 import sys
 from pathlib import Path
-
-CODE_PATH = Path('D:\AIO\competititon\HCMC\HCMC_AIC\SenmaticSearchCLIP')
+import pandas as pd
+CODE_PATH = Path('D:\HCMAI_2023_BASICAIO\SenmaticSearchCLIP')
 
 sys.path.append(str(CODE_PATH))
 from model.my_faiss import Myfaiss
 from model.translation import Translation
-from utils.query_db import get_image_path
+from utils.query_db import get_image_path, get_script
 import csv
 import json
+from utils.search_frame_by_script import get_image_path_by_script
+
 
 UPLOAD_FOLDER = "./static/data"
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])        
@@ -25,13 +27,38 @@ IMAGES_PATH = os.path.join(ROOT, "data")
 
 
 DICT_IMAGE_PATH = get_image_path()
+
+data = [{"ImageID": key, "ImagePath": value} for key, value in DICT_IMAGE_PATH.items()]
+
+DICT_IMAGE_PATH_PD = pd.DataFrame(data)
+
 BIN_FILE=os.path.join(ROOT + "/config/faiss_normal_ViT.bin")
 
 FAISS_TEST= Myfaiss(BIN_FILE, DICT_IMAGE_PATH, DEVICE, MODEL, Translation(), PREPROCESS)
 
 METADATA = {}
 
-with open("./model/metadata.json", "r", encoding="utf-8") as file:
+def get_script_images(text):
+
+    data = get_script(text)
+    idx = []
+    for row in data:
+        for y in range(int(row[3]) - 10, int(row[4]) + 10):
+            y = str(y)
+            if len(y) < 6:
+                miss_zero = "0" * (6 - len(y))
+                y = miss_zero + y
+            image_path = row[1]+"_"+y
+            # print(image_path)
+            # print(get_image_path_by_script(image_path))
+            result = DICT_IMAGE_PATH_PD[DICT_IMAGE_PATH_PD['ImagePath'].str.contains(image_path)]
+            if is not result['ImageID'].empty: 
+                idx.append(result['ImageID'])
+                break
+    print(idx)
+    # return encoded_images    
+
+with open("./metadata.json", "r", encoding="utf-8") as file:
         METADATA = json.load(file)
 
 
@@ -101,3 +128,4 @@ def knn(id_image):
 
 
 
+get_script_images("mùa thu")
