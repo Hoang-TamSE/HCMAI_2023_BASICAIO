@@ -22,3 +22,17 @@ def get_image_path():
     cur.close()
 
     return DictImagePath
+
+def get_script(text):
+    DictImagePath = {}
+
+    cur = connection.cursor()
+
+    query = f"SELECT * FROM scriptsTB WHERE text LIKE '%{text}%'"
+    cur.execute(query)
+
+    data = cur.fetchall()
+
+    cur.close()
+
+    return data

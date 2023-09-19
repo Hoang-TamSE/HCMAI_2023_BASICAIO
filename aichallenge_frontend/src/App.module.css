@@ -34,9 +34,19 @@
 }
 .image_list_mini_container {
     width: 30%;
-    height: 35%;
+    height: 50%;
     overflow: auto;
     background-color: #2b2727;
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    right: 5px;
+}
+.image_list_mini_container_div {
+    width: 30%;
+    height: 40%;
+    overflow: auto;
+    background-color: gray;
     position: absolute;
     bottom: 5px;
     left: 5px;
