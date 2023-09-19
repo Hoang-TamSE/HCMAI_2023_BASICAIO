@@ -43,18 +43,14 @@ def get_script_images(text):
     data = get_script(text)
     idx = []
     for row in data:
-        for y in range(int(row[3]) - 10, int(row[4]) + 10):
-            y = str(y)
-            if len(y) < 6:
-                miss_zero = "0" * (6 - len(y))
-                y = miss_zero + y
-            image_path = row[1]+"_"+y
+        
+        start_index = row[3][:-1]
+        image_path = row[1]+"_"+start_index
             # print(image_path)
             # print(get_image_path_by_script(image_path))
-            result = DICT_IMAGE_PATH_PD[DICT_IMAGE_PATH_PD['ImagePath'].str.contains(image_path)]
-            if is not result['ImageID'].empty: 
-                idx.append(result['ImageID'])
-                break
+        result = DICT_IMAGE_PATH_PD[DICT_IMAGE_PATH_PD['ImagePath'].str.contains(image_path)]
+        if result['ImageID'].empty != True: 
+            idx.append(result['ImageID'])
     print(idx)
     # return encoded_images    
 
