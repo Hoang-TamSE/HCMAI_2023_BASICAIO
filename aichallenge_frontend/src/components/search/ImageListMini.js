@@ -10,15 +10,14 @@ import "bootstrap/dist/css/bootstrap.min.css"; // Import the Bootstrap CSS file
 import { Link} from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
-function ImageListMini({ dataList, clicked, query }) {
+function ImageListMini({ dataListMini, clicked, query }) {
   const [images, setImages] = useState([]);
   useEffect(() => {
     let counter = 0;
-    console.log( Object.entries(dataList["data"]))
-    const im = Object.entries(dataList["data"]).map((item, index) => {
+    const im = Object.entries(dataListMini["data"]).map((item, index) => {
       return (
         <Col key={`${item}${++counter}` } 
-        xs={6} sm={4} md={3} lg={2} style={{padding: "0px 2px", margin: "2px 0px"}}>
+        xs={6} sm={4} md={3} lg={3} style={{padding: "0px 2px", margin: "2px 0px"}}>
           <Link to={{
                 pathname: `/knn/${index}`,
                 search: `?clicked=${clicked}&query=${query}`
@@ -35,7 +34,7 @@ function ImageListMini({ dataList, clicked, query }) {
       );
     });
     setImages(im);
-  }, [dataList, clicked, query]);
+  }, [dataListMini, clicked, query]);
 
   return (
     <div>

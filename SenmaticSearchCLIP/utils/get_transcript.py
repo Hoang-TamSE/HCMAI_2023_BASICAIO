@@ -6,7 +6,6 @@ import mysql.connector
 CODE_PATH = Path('D:\HCMAI_2023_BASICAIO\SenmaticSearchCLIP')
 
 sys.path.append(str(CODE_PATH))
-from utils.search_frame_by_script import get_image_path_by_script
 
 
 import csv

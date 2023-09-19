@@ -9,6 +9,7 @@ import { useLocation } from "react-router-dom";
 import IconList from "./components/drag/IconList";
 import Box from "./components/drag/Box";
 import Radio from "./components/drag/Radio";
+import QueryFormForMiniImage from "./components/query/QueryFromForMiniImage";
 
 function App() {
   const location = useLocation();
@@ -21,6 +22,8 @@ function App() {
   const [isAnd, setIsAnd] = useState(true);
   const [imgPath, setImgPath] = useState("");
   const [clickedImages, setClickedImages] = useState([]);
+  const [dataListMini, setDataListMini] = useState({ data: {}});
+
 
   // const location = useLocation();
   // const data = location.state?.dataList;
@@ -85,12 +88,15 @@ useEffect(() => {
       <div className={classes.search_space}>
         <Logo />
         
-      <IconList setImagePaths={setImagePaths}/>
+      {/* <IconList setImagePaths={setImagePaths}/>
       <Radio setIsEnabled={setIsEnabled}/>
-      <Box isEnabled={isEnabled} imagePaths={imagePaths} setImagePaths={setImagePaths} setSketch={setSketch}/>
-        <div className={classes.image_list_mini_container}>
-          <ImageListMini dataList={dataList} clicked={clicked} query={query} />
-        </div>
+      <Box isEnabled={isEnabled} imagePaths={imagePaths} setImagePaths={setImagePaths} setSketch={setSketch}/> */}
+          <QueryFormForMiniImage setDataListMini={setDataListMini}/>
+          <div className={classes.image_list_mini_container}>
+            <ImageListMini dataListMini={dataListMini} clicked={clicked} query={query} />
+          </div>
+      
+        
       </div>
       <div className={classes.result_space}>
   <div className={classes.header}>

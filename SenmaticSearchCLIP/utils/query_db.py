@@ -33,8 +33,6 @@ def get_script(text):
 
     data = cur.fetchall()
 
-    print(data)
-
     cur.close()
 
     return data

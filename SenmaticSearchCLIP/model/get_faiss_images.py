@@ -6,7 +6,7 @@ import clip
 import sys
 from pathlib import Path
 import pandas as pd
-CODE_PATH = Path('D:\HCMAI_2023_BASICAIO\SenmaticSearchCLIP')
+CODE_PATH = Path('D:\AIO\competititon\HCMC\HCMC_AIC\SenmaticSearchCLIP')
 
 sys.path.append(str(CODE_PATH))
 from model.my_faiss import Myfaiss
@@ -37,7 +37,8 @@ BIN_FILE=os.path.join(ROOT + "/config/faiss_normal_ViT.bin")
 FAISS_TEST= Myfaiss(BIN_FILE, DICT_IMAGE_PATH, DEVICE, MODEL, Translation(), PREPROCESS)
 
 METADATA = {}
-
+with open("./model/metadata.json", "r", encoding="utf-8") as file:
+        METADATA = json.load(file)
 def get_script_images(text):
 
     data = get_script(text)
@@ -52,10 +53,12 @@ def get_script_images(text):
         if result['ImageID'].empty != True: 
             idx.extend(result['ImageID'].tolist())
     print(idx)
-    # return encoded_images    
+    encoded_images = {}
+    for id in idx:
+        encoded_images[int(id)] = get_response_image(id)
+    return encoded_images    
 
-with open("./metadata.json", "r", encoding="utf-8") as file:
-        METADATA = json.load(file)
+
 
 
 
@@ -69,13 +72,13 @@ def make_url(idx):
         return url
 
 def get_near_images(id):
-    if id <= 50:
+    if id <= 10:
           id = 0
     else:
-         id -= 50
+         id -= 10
     encoded_images = {}
 
-    for i in range(id, id + 100):
+    for i in range(id, id + 10):
         if i >= 809694:
              break
         else:
@@ -125,4 +128,4 @@ def knn(id_image):
 
 
 # get_script_images("mùa thu")
-print(make_url(51780))
+# print(make_url(51780))

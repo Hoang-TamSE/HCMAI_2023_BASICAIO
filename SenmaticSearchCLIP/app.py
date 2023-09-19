@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
-from model.get_faiss_images import faiss_image, knn, make_csv_file, make_url, get_near_images
+from model.get_faiss_images import faiss_image, knn, make_csv_file, make_url, get_near_images,get_script_images
 import csv
 # # from model.retrieval import get_image_list
 app = Flask(__name__)
@@ -35,6 +35,21 @@ def get_url():
     id = data['id']
     url = make_url(id)
     return jsonify({'data': url})
+
+@app.route('/getbyscript', methods=["POST"])
+def get_image_by_script():
+    data = request.get_json()
+    text = data['text']
+    encoded_images = []
+    print(text)
+    # if isEnabled :
+    #     encoded_images_faiss = faiss_image(query=query)
+    #     encoded_images_sketch = get_image_list(sketch=sketch, caption=query)
+    #     encoded_images.extend(encoded_images_faiss)
+    #     encoded_images.extend(encoded_images_sketch)
+    # else:
+    encoded_images = get_script_images(text)
+    return jsonify({'data': encoded_images})
 
 
 
