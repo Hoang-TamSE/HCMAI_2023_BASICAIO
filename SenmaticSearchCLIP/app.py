@@ -17,17 +17,12 @@ def get_imgPath():
     imgPath = int(data['imgPath'])
     isEnabled = data['isEnabled']
     print(isEnabled)
-    encoded_images = []
-    if isEnabled:
-        near_images = get_near_images(imgPath)
-        knn_images = knn(imgPath)
-        combined_dict = {**near_images, **knn_images}
-        encoded_images = combined_dict
+    near_images = get_near_images(imgPath)
+    knn_images = knn(imgPath)
 
-    else:
-        encoded_images = knn(imgPath)
+    
     # print(encoded_images)
-    return jsonify({'data': encoded_images})
+    return jsonify({'data': knn_images, 'minidata':near_images})
 
 @app.route('/geturl', methods=["POST"])
 def get_url():
@@ -49,7 +44,7 @@ def get_image_by_script():
     #     encoded_images.extend(encoded_images_sketch)
     # else:
     encoded_images = get_script_images(text)
-    return jsonify({'data': encoded_images})
+    return jsonify({'minidata': encoded_images})
 
 
 

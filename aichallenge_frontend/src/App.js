@@ -22,7 +22,7 @@ function App() {
   const [isAnd, setIsAnd] = useState(true);
   const [imgPath, setImgPath] = useState("");
   const [clickedImages, setClickedImages] = useState([]);
-  const [dataListMini, setDataListMini] = useState({ data: {}});
+  const [dataListMini, setDataListMini] = useState({ minidata: {}});
 
 
   // const location = useLocation();
@@ -51,6 +51,7 @@ function App() {
     if (response.ok) {
         const data = await response.json();
         setDataList(data)
+        setDataListMini(data)
         console.log("aaaaaaaaaaaaa")
         // setDataList(data);
         // setQuery(query);
@@ -93,7 +94,7 @@ useEffect(() => {
       <Box isEnabled={isEnabled} imagePaths={imagePaths} setImagePaths={setImagePaths} setSketch={setSketch}/> */}
           <QueryFormForMiniImage setDataListMini={setDataListMini}/>
           <div className={classes.image_list_mini_container}>
-            <ImageListMini dataListMini={dataListMini} clicked={clicked} query={query} />
+            <ImageListMini dataListMini={dataListMini} clicked={clicked} query={query}  setClickedImages={setClickedImages} />
           </div>
       
         

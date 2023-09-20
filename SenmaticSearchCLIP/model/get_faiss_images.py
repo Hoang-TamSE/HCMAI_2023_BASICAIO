@@ -6,7 +6,9 @@ import clip
 import sys
 from pathlib import Path
 import pandas as pd
-CODE_PATH = Path('D:\AIO\competititon\HCMC\HCMC_AIC\SenmaticSearchCLIP')
+DIR_NAME = os.path.dirname(__file__)
+ROOT = os.path.abspath(os.path.join(DIR_NAME, os.pardir))
+CODE_PATH = Path(ROOT)
 
 sys.path.append(str(CODE_PATH))
 from model.my_faiss import Myfaiss
@@ -21,8 +23,7 @@ UPLOAD_FOLDER = "./static/data"
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])        
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 MODEL, PREPROCESS = clip.load("ViT-B/32", device=DEVICE)
-DIR_NAME = os.path.dirname(__file__)
-ROOT = os.path.abspath(os.path.join(DIR_NAME, os.pardir))
+
 IMAGES_PATH = os.path.join(ROOT, "data")
 
 
@@ -32,30 +33,35 @@ data = [{"ImageID": key, "ImagePath": value} for key, value in DICT_IMAGE_PATH.i
 
 DICT_IMAGE_PATH_PD = pd.DataFrame(data)
 
+DICT_IMAGE_PATH_PD["video_path"] = DICT_IMAGE_PATH_PD['ImagePath'].str.split("\\", expand=True).iloc[:, -1].str.split("_", n=2).apply(lambda x: '_'.join(x[:2]))
 BIN_FILE=os.path.join(ROOT + "/config/faiss_normal_ViT.bin")
 
 FAISS_TEST= Myfaiss(BIN_FILE, DICT_IMAGE_PATH, DEVICE, MODEL, Translation(), PREPROCESS)
 
 METADATA = {}
-with open("./model/metadata.json", "r", encoding="utf-8") as file:
+with open(os.path.join(ROOT, "model/metadata.json"), "r", encoding="utf-8") as file:
         METADATA = json.load(file)
 def get_script_images(text):
 
     data = get_script(text)
     idx = []
     for row in data:
-        
+        video_path = row[1]
         start_index = row[3][:-1]
-        image_path = row[1]+"_"+start_index
+        image_path = video_path+"_"+start_index
+        
             # print(image_path)
             # print(get_image_path_by_script(image_path))
-        result = DICT_IMAGE_PATH_PD[DICT_IMAGE_PATH_PD['ImagePath'].str.contains(image_path)]
+        filtered_df = DICT_IMAGE_PATH_PD[DICT_IMAGE_PATH_PD['video_path'].str.contains(video_path)]
+        result = filtered_df[filtered_df['ImagePath'].str.contains(image_path)]
         if result['ImageID'].empty != True: 
             idx.extend(result['ImageID'].tolist())
     print(idx)
     encoded_images = {}
     for id in idx:
-        encoded_images[int(id)] = get_response_image(id)
+        for i in range(id-10, id+10):
+            encoded_images[int(i)] = get_response_image(i)
+        
     return encoded_images    
 
 
@@ -127,5 +133,6 @@ def knn(id_image):
 
 
 
-# get_script_images("mùa thu")
+# get_script_images("công an")
 # print(make_url(51780))
+# print(DICT_IMAGE_PATH_PD)
