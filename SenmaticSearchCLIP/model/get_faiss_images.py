@@ -46,9 +46,10 @@ def get_script_images(text):
     for row in data:
         
         start_index = row[3][:-1]
-        image_path = row[1]+"_"+start_index
+        image_path = row[1]+"_"+start_index 
             # print(image_path)
             # print(get_image_path_by_script(image_path))
+            #L01_V001_124560 -> 9   
         result = DICT_IMAGE_PATH_PD[DICT_IMAGE_PATH_PD['ImagePath'].str.contains(image_path)]
         if result['ImageID'].empty != True: 
             idx.extend(result['ImageID'].tolist())
@@ -127,5 +128,5 @@ def knn(id_image):
 
 
 
-# get_script_images("mùa thu")
+# get_script_images("mùa thu hà nội")   
 # print(make_url(51780))
