@@ -78,6 +78,73 @@ collection = database[collection_name]
 #     }
 # ])
 
+collection.insert_many([
+    {
+        "id": 4,
+        "path": "abc",
+        "object": {
+            "person": "1",
+            "dog": "3",
+            "cat": "5"
+        },
+        "colors": [
+            "gray",
+            "green",
+            "blue"
+        ],
+        "ocr": [
+            "Viet Nam",
+            "Việt Nam",
+            "Thoi su",
+            "19000703",
+            "19EST",
+            "Hỗ trợ kiểm tra lỗi"
+        ]
+    },
+    {
+        "id": 5,
+        "path": "aaa",
+        "object": {
+            "person": "1",
+            "dog": "3",
+        },
+        "colors": [
+            "red",
+            "yellow"
+        ],
+        "ocr": [
+            "August",
+            "Thoi su",
+            "19000703",
+            "19EST",
+            "Hỗ trợ kiểm thử",
+            "Vietnam"
+        ]
+    },
+    {
+        "id": 6,
+        "path": "bbb",
+        "object": {
+            "person": "8",
+            "dog": "3",
+            "cat": "7"
+        },
+        "colors": [
+            "red",
+            "green",
+            "blue"
+        ],
+        "ocr": [
+            "Viet Nam la dat nuoc co hinh chu S",
+            "Việt Nam",
+            "Thoi su",
+            "19000703",
+            "19EST",
+            "Hỗ trợ kiểm thử"
+        ]
+    }
+])
+
 collection.create_index(
     [
         ("object", "text"),
@@ -96,30 +163,30 @@ criteria = {
     "$and": [
         {
             "$text": {
-                "$search": "Viet Nam Việt Nam Thoi su 19000703 19EST Hỗ trợ kiểm tra lỗi"
+                "$search": "August Việt Nam Thoi su 19000703 19EST Hỗ trợ kiểm tra lỗi"
             }
         },
         {
-            "object.person": "3",
-            "object.dog": "5"
+            "object.person": "1"
+            # "object.dog": "3"
         },
         {
             "colors": {
                 "$in": ["red", "green", "blue"]
             }
         },
-        {
-            "ocr": {
-                "$in": [
-                    "Viet Nam",
-                    "Việt Nam",
-                    "Thoi su",
-                    "19000703",
-                    "19EST",
-                    "Hỗ trợ kiểm tra lỗi"
-                ]
-            }
-        }
+        # {
+        #     "ocr": {
+        #         "$in": [
+        #             "Viet Nam",
+        #             "Việt Nam",
+        #             "Thoi su",
+        #             "19000703",
+        #             "19EST",
+        #             "Hỗ trợ kiểm tra lỗi"
+        #         ]
+        #     }
+        # }
     ]
 }
 
@@ -130,15 +197,18 @@ results = collection.find(
             "$meta": "textScore"
         }
     }
-)
-# .sort(
-#     [("score", {"$meta": "textScore"})])
+).sort(
+    [("score", {"$meta": "textScore"})])
 
+
+print("Text Search Score:")
 for result in results:
     print(dict(result))
 
-# for x in collection.find():
-#     print(x)
+print("all doc:s")
+
+for x in collection.find():
+    print(x)
 
 client.close()
 print('okiii')
