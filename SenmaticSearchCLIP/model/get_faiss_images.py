@@ -22,7 +22,7 @@ from utils.search_frame_by_script import get_image_path_by_script
 UPLOAD_FOLDER = "./static/data"
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])        
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-MODEL, PREPROCESS = clip.load("ViT-B/32", device=DEVICE)
+MODEL, PREPROCESS = clip.load("ViT-L/14", device=DEVICE)
 
 IMAGES_PATH = os.path.join(ROOT, "data")
 
@@ -34,7 +34,7 @@ data = [{"ImageID": key, "ImagePath": value} for key, value in DICT_IMAGE_PATH.i
 DICT_IMAGE_PATH_PD = pd.DataFrame(data)
 
 DICT_IMAGE_PATH_PD["video_path"] = DICT_IMAGE_PATH_PD['ImagePath'].str.split("\\", expand=True).iloc[:, -1].str.split("_", n=2).apply(lambda x: '_'.join(x[:2]))
-BIN_FILE=os.path.join(ROOT + "/config/faiss_normal_ViT.bin")
+BIN_FILE=os.path.join(ROOT + "/config/faiss_normal_ViT_L14.bin")
 
 FAISS_TEST= Myfaiss(BIN_FILE, DICT_IMAGE_PATH, DEVICE, MODEL, Translation(), PREPROCESS)
 
@@ -59,7 +59,7 @@ def get_script_images(text):
     print(idx)
     encoded_images = {}
     for id in idx:
-        for i in range(id-10, id+10):
+        for i in range(id-5, id+5):
             encoded_images[int(i)] = get_response_image(i)
         
     return encoded_images    
@@ -78,17 +78,15 @@ def make_url(idx):
         return url
 
 def get_near_images(id):
-    if id <= 10:
-          id = 0
-    else:
-         id -= 10
     encoded_images = {}
 
-    for i in range(id, id + 10):
+
+    for i in range(id-20, id + 20):
         if i >= 809694:
              break
-        else:
-             encoded_images[int(i)] = get_response_image(int(i))
+        elif i < 0:
+             break
+        encoded_images[int(i)] = get_response_image(int(i))
     return encoded_images    
 def get_response_image(id):
     image_name = DICT_IMAGE_PATH[id]
@@ -115,7 +113,7 @@ def faiss_image(query):
     
     text = query
 
-    scores, idx, infos_query, images = FAISS_TEST.text_search(text, k=2000)
+    scores, idx, infos_query, images = FAISS_TEST.text_search(text, k=500)
 
     for id in idx:
         encoded_images[int(id)] = get_response_image(id)
@@ -125,7 +123,7 @@ def knn(id_image):
     encoded_images = {}
     
 
-    scores, idx, infos_query, images = FAISS_TEST.image_search(int(id_image), k=2000)
+    scores, idx, infos_query, images = FAISS_TEST.image_search(int(id_image), k=500)
 
     for id in idx:
         encoded_images[int(id)] = get_response_image(id)

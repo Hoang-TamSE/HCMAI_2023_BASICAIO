@@ -13,11 +13,13 @@ connection = mysql.connector.connect(
 cursor = connection.cursor()
 
 files= glob2.glob(f'{IMAGES_PATH}/*')
+files.sort()
 
 for index, row in enumerate(files):
     sql = "INSERT INTO images (ID, image_path) VALUES (%s, %s)"
     val = (index, row)
     cursor.execute(sql, val)
+print("doneee")
 cursor.close()
 connection.commit()
 

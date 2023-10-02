@@ -58,7 +58,7 @@ function ImageListMini({ dataListMini, clicked, query, setClickedImages }) {
               alt={`Image ${counter}`}
               onClick={() => handleImageIdx(item[0])}
             />
-            <div style={{ position: "relative", bottom: "1rem", }}>
+            <div style={{ position: "relative", bottom: "2rem", }}>
               <Link to={{
                 pathname: `/knn/${index}`,
                 search: `?clicked=true&imgPath=${item[0]}`
@@ -67,7 +67,7 @@ function ImageListMini({ dataListMini, clicked, query, setClickedImages }) {
               </Link>
             </div>
 
-            <div style={{ position: "relative", bottom: "1rem"}}>
+            <div style={{ position: "relative", bottom: "2rem"}}>
                 <Button style={{fontSize: '6px', padding: '5px 8px'}} onClick={() => handleMakeURL(item[0])} className="image-button btn-sm float-end">Show</Button>
             </div>
         </Col>
