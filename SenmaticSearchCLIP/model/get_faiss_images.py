@@ -59,7 +59,7 @@ def get_script_images(text):
     print(idx)
     encoded_images = {}
     for id in idx:
-        for i in range(id-10, id+10):
+        for i in range(id-5, id+5):
             encoded_images[int(i)] = get_response_image(i)
         
     return encoded_images    
