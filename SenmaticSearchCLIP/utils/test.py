@@ -101,7 +101,7 @@ criteria = {
         },
         {
             "object.person": "3",
-            "object.dog": "1"
+            "object.dog": "5"
         },
         {
             "colors": {
@@ -137,8 +137,8 @@ results = collection.find(
 for result in results:
     print(dict(result))
 
-for x in collection.find():
-    print(x)
+# for x in collection.find():
+#     print(x)
 
 client.close()
 print('okiii')
