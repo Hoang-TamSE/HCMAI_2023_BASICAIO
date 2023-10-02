@@ -78,72 +78,72 @@ collection = database[collection_name]
 #     }
 # ])
 
-collection.insert_many([
-    {
-        "id": 4,
-        "path": "abc",
-        "object": {
-            "person": "1",
-            "dog": "3",
-            "cat": "5"
-        },
-        "colors": [
-            "gray",
-            "green",
-            "blue"
-        ],
-        "ocr": [
-            "Viet Nam",
-            "Việt Nam",
-            "Thoi su",
-            "19000703",
-            "19EST",
-            "Hỗ trợ kiểm tra lỗi"
-        ]
-    },
-    {
-        "id": 5,
-        "path": "aaa",
-        "object": {
-            "person": "1",
-            "dog": "3",
-        },
-        "colors": [
-            "red",
-            "yellow"
-        ],
-        "ocr": [
-            "August",
-            "Thoi su",
-            "19000703",
-            "19EST",
-            "Hỗ trợ kiểm thử",
-            "Vietnam"
-        ]
-    },
-    {
-        "id": 6,
-        "path": "bbb",
-        "object": {
-            "person": "8",
-            "dog": "3",
-            "cat": "7"
-        },
-        "colors": [
-            "red",
-            "green",
-            "blue"
-        ],
-        "ocr": [
-            "Viet Nam la dat nuoc co hinh chu S",
-            "Việt Nam",
-            "Thoi su",
-            "19000703",
-            "19EST",
-            "Hỗ trợ kiểm thử"
-        ]
-    }
-])
+# collection.insert_many([
+#     {
+#         "id": 4,
+#         "path": "abc",
+#         "object": {
+#             "person": "1",
+#             "dog": "3",
+#             "cat": "5"
+#         },
+#         "colors": [
+#             "gray",
+#             "green",
+#             "blue"
+#         ],
+#         "ocr": [
+#             "Viet Nam",
+#             "Việt Nam",
+#             "Thoi su",
+#             "19000703",
+#             "19EST",
+#             "Hỗ trợ kiểm tra lỗi"
+#         ]
+#     },
+#     {
+#         "id": 5,
+#         "path": "aaa",
+#         "object": {
+#             "person": "1",
+#             "dog": "3",
+#         },
+#         "colors": [
+#             "red",
+#             "yellow"
+#         ],
+#         "ocr": [
+#             "August",
+#             "Thoi su",
+#             "19000703",
+#             "19EST",
+#             "Hỗ trợ kiểm thử",
+#             "Vietnam"
+#         ]
+#     },
+#     {
+#         "id": 6,
+#         "path": "bbb",
+#         "object": {
+#             "person": "8",
+#             "dog": "3",
+#             "cat": "7"
+#         },
+#         "colors": [
+#             "red",
+#             "green",
+#             "blue"
+#         ],
+#         "ocr": [
+#             "Viet Nam la dat nuoc co hinh chu S",
+#             "Việt Nam",
+#             "Thoi su",
+#             "19000703",
+#             "19EST",
+#             "Hỗ trợ kiểm thử"
+#         ]
+#     }
+# ])
 
 collection.create_index(
     [
@@ -159,20 +159,24 @@ collection.create_index(
     name="TextIndex"
 )
 
+user_input_ocr = "August Việt Nam Thoi su 19000703 19EST Hỗ trợ kiểm tra lỗi"
+user_input_person = "1"
+user_input_colors = ["red", "green", "blue"]
+
 criteria = {
     "$and": [
         {
             "$text": {
-                "$search": "August Việt Nam Thoi su 19000703 19EST Hỗ trợ kiểm tra lỗi"
+                "$search": user_input_ocr
             }
         },
         {
-            "object.person": "1"
+            "object.person": user_input_person
             # "object.dog": "3"
         },
         {
             "colors": {
-                "$in": ["red", "green", "blue"]
+                "$in": user_input_colors
             }
         },
         # {
