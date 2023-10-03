@@ -101,7 +101,7 @@ criteria = {
         },
         {
             "object.person": "3",
-            "object.dog": "5"
+            "object.dog": "1"
         },
         {
             "colors": {
