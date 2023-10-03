@@ -23,33 +23,24 @@ with open('resultFas_rcnn.csv', 'r') as file:
         image_link = row[0]
         result_str = row[-1]
         for item in result_str.split(","):
-            # Split each item by colon to separate the key and value
-            # key, value = item.strip().split(":")
-            # # Remove any leading or trailing whitespace from the key and value
-            # key = key.strip()
-            # value = int(value.strip())
-            # # Add the key-value pair to the dictionary
-            # result_dict[key] = value
-            if (result_str is None):
+            # if (result_str is None):
+            #     document = {
+            #         "image_link": image_link,
+            #         "result": result_str
+            #     }
+            # else:
+            split_item = item.strip().split(":")
+            if len(split_item) == 2:
+                key = split_item[0].strip()
+                value = int(split_item[1].strip())
+                # Add the key-value pair to the dictionary
+                result_dict[key] = value
+            
                 document = {
                     "image_link": image_link,
-                    "result": result_str
+                    "result": result_dict
                 }
-            else:
-                split_item = item.strip().split(":")
-                if len(split_item) == 2:
-                    key, value = item.strip().split(":")
-                    # Remove any leading or trailing whitespace from the key and value
-                    key = key.strip()
-                    value = int(value.strip())
-                    # Add the key-value pair to the dictionary
-                    result_dict[key] = value
-            
-                    document = {
-                        "image_link": image_link,
-                        "result": result_dict
-                    }
-                    collection_object.insert_one(document)
+                collection_object.insert_one(document)
                 
 
 for doc in (collection_object).find({}):
