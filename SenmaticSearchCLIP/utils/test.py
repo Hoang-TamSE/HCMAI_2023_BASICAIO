@@ -171,8 +171,8 @@ criteria = {
             }
         },
         {
-            "object.person": user_input_person
-            # "object.dog": "3"
+            "object.person": "3",
+            "object.dog": "5"
         },
         {
             "colors": {
