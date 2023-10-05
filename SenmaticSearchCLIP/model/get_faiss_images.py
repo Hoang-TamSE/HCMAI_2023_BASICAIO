@@ -27,7 +27,7 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 MODEL, PREPROCESS = clip.load("ViT-L/14", device=DEVICE)
 
 IMAGES_PATH = os.path.join(ROOT, "data")
-SESSIONID = "node0sszce2spe2zz11uw6xx7171t4666"
+SESSIONID = "node04x6td5z6vkoajftg3go3sp7c84"
 
 
 DICT_IMAGE_PATH = get_image_path()

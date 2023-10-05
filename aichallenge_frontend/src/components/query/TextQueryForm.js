@@ -19,7 +19,7 @@ function TextQueryForm({ setDataList, setClicked, setQuery, sketch, isEnabled, c
 
             if (response.ok) {
                 const data = await response.json();
-                setNoti(data)
+                setDataList(data)
             }
         };
         fetch_image();
@@ -38,7 +38,9 @@ function TextQueryForm({ setDataList, setClicked, setQuery, sketch, isEnabled, c
             });
             console.log(clickedImages)
             if (response.ok) {
-                console.log("okiiii")
+                const data = await response.json();
+                console.log("okiiii");
+                alert(JSON.stringify(data)); // Display response in an alert
             }
         };
         fetch_make_file();
@@ -71,7 +73,6 @@ function TextQueryForm({ setDataList, setClicked, setQuery, sketch, isEnabled, c
                  <button onClick={handleClean} className={classes.scoreBtn}>Clean</button>
                  <button onClick={handleDeleteLastValue} className={classes.scoreBtn}>Undo</button>
                  <label  className={classes.label}>{clickedImages}</label>
-                 <label  className={classes.label}>{noti}</label>
             </div>
 
 
