@@ -13,7 +13,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 
 function ImageListMini({ dataListMini, clicked, query, setClickedImages }) {
   const handleImageIdx = useCallback((id) => {
-    setClickedImages((prevList) => [...prevList, id]);
+    setClickedImages(id);
   }, [setClickedImages]);
 
 

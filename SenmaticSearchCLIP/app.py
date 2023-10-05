@@ -54,8 +54,8 @@ def get_image_by_script():
 def make_file():
     data = request.get_json()
     imgPath = data['idx_images']
-    make_csv_file(imgPath)
-    return "okii"
+    
+    return make_csv_file(imgPath)
 
 @app.route('/', methods=["POST"])
 def hello():

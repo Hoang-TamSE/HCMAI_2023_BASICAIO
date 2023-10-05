@@ -16,7 +16,7 @@ function ImageList({ dataList, clicked, query, setClickedImages }) {
   const [images, setImages] = useState([]);
 
   const handleImageIdx = useCallback((id) => {
-    setClickedImages((prevList) => [...prevList, id]);
+    setClickedImages(id);
   }, [setClickedImages]);
 
 

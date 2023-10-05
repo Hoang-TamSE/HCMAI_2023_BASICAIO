@@ -21,7 +21,7 @@ function App() {
   const [isEnabled, setIsEnabled] = useState(true);
   const [isAnd, setIsAnd] = useState(true);
   const [imgPath, setImgPath] = useState("");
-  const [clickedImages, setClickedImages] = useState([]);
+  const [clickedImages, setClickedImages] = useState("");
   const [dataListMini, setDataListMini] = useState({ minidata: {}});
 
 

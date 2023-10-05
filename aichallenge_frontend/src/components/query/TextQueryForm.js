@@ -3,9 +3,8 @@ import classes from "./TextQueryForm.module.css";
 
 
 function TextQueryForm({ setDataList, setClicked, setQuery, sketch, isEnabled, clickedImages, setClickedImages }) {
-    const [imageList, setImageList] = useState({ data: [] });
     const [text, setText] = useState(""); // <-- Add state for the query input
-
+    const [noti, setNoti] = useState("");
     const handleSubmission = (event) => {
         event.preventDefault();
 
@@ -20,12 +19,7 @@ function TextQueryForm({ setDataList, setClicked, setQuery, sketch, isEnabled, c
 
             if (response.ok) {
                 const data = await response.json();
-                console.log(data);
-                setDataList(data);
-                console.log(data)
-                setImageList(data);
-                setClicked("true");
-                setQuery(text);
+                setNoti(data)
             }
         };
         fetch_image();
@@ -76,7 +70,8 @@ function TextQueryForm({ setDataList, setClicked, setQuery, sketch, isEnabled, c
                  <button onClick={handleMakeFileSubmit} className={classes.scoreBtn}>Make File</button>
                  <button onClick={handleClean} className={classes.scoreBtn}>Clean</button>
                  <button onClick={handleDeleteLastValue} className={classes.scoreBtn}>Undo</button>
-                 <label  className={classes.label}>{clickedImages.length}</label>
+                 <label  className={classes.label}>{clickedImages}</label>
+                 <label  className={classes.label}>{noti}</label>
             </div>
 
 

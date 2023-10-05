@@ -17,6 +17,8 @@ from utils.query_db import get_image_path, get_script
 import csv
 import json
 from utils.search_frame_by_script import get_image_path_by_script
+import requests
+
 
 
 UPLOAD_FOLDER = "./static/data"
@@ -25,6 +27,7 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 MODEL, PREPROCESS = clip.load("ViT-L/14", device=DEVICE)
 
 IMAGES_PATH = os.path.join(ROOT, "data")
+SESSIONID = "node0sszce2spe2zz11uw6xx7171t4666"
 
 
 DICT_IMAGE_PATH = get_image_path()
@@ -97,14 +100,37 @@ def get_response_image(id):
     return encoded_img
 
 def make_csv_file(list_id):
-    with open("query.csv", 'w', newline='', encoding='utf-8') as csv_file:
-        csv_writer = csv.writer(csv_file)
-        for i in list_id:
-            file_name = DICT_IMAGE_PATH[int(i)].split("\\")[-1]
-            video_path = file_name.split("_")[0] + "_" + file_name.split("_")[1]
-            id = int(file_name.split("_")[-1].split(".")[0])
-            csv_writer.writerow([video_path, ' ' + str(id)])
+    # with open("query.csv", 'w', newline='', encoding='utf-8') as csv_file:
+    #     csv_writer = csv.writer(csv_file)
+    #     for i in list_id:
+    description = ""
+    file_name = DICT_IMAGE_PATH[int(list_id)].split("\\")[-1]
+    video_path = file_name.split("_")[0] + "_" + file_name.split("_")[1]
+    id = int(file_name.split("_")[-1].split(".")[0])
+    url = "https://eventretrieval.one/api/v1/submit"
+    params = {
+        "item": f"{video_path}",
+        "frame": f"{id}",
+        "session": f"{SESSIONID}",
+    }
 
+    headers = {
+        "Content-Type": "application/json"
+    }
+
+    response = requests.get(url, params=params, headers=headers)
+    if response.ok:
+        response_data = json.loads(response.text)
+        description = response_data.get("description")
+        status = response_data.get("status")
+        # Handle the response data as needed
+        print(description)
+        print(status)
+        print("okiiii")
+    else:
+        print("Request failed with status code:", response.status_code)
+
+    return description
 
 
 
