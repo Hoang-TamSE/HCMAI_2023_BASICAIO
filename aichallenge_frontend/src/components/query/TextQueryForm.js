@@ -38,10 +38,15 @@ function TextQueryForm({ setDataList, setClicked, setQuery, sketch, isEnabled, c
             });
             console.log(clickedImages)
             if (response.ok) {
-                const data = await response.json();
+                const data = response
                 console.log("okiiii");
-                alert(JSON.stringify(data)); // Display response in an alert
+                alert(data); // Display response in an alert
+            }else{
+                console.log("abccc")
+                const data = response
+                alert(data);
             }
+
         };
         fetch_make_file();
     };
