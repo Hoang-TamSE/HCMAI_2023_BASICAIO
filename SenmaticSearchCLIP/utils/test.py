@@ -209,10 +209,10 @@ print("Text Search Score:")
 for result in results:
     print(dict(result))
 
-print("all doc:s")
+# print("all doc:s")
 
-for x in collection.find():
-    print(x)
+# for x in collection.find():
+#     print(x)
 
 client.close()
 print('okiii')
