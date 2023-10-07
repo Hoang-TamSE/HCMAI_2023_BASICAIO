@@ -7,7 +7,7 @@ METADATA_PATH = "metadata"
 
 
 files= glob2.glob(f'{METADATA_PATH}/*')
-metadata_name = "metadata.json"
+metadata_name = "metadata2.json"
 dict_file = {}
 for file_path in files:
     with open(file_path, "r", encoding="utf-8") as file:

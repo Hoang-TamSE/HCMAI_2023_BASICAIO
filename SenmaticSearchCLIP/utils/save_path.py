@@ -22,4 +22,3 @@ for index, row in enumerate(files):
 print("doneee")
 cursor.close()
 connection.commit()
-

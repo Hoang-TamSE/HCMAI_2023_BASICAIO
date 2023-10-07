@@ -21,10 +21,10 @@ cursor = connection.cursor()
 import math 
 METADATA = {}
 
-with open("./metadata.json", "r", encoding="utf-8") as file:
+with open("./metadata2.json", "r", encoding="utf-8") as file:
         METADATA = json.load(file)
 
-for i in    METADATA.items():
+for i in METADATA.items():
     video_path = i[0]
     id_view = i[1].split("=")[1]
     count = 0
