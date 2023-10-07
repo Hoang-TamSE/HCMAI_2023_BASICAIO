@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
-from model.get_faiss_images import faiss_image, knn, make_csv_file, make_url, get_near_images,get_script_images
+from model.get_faiss_images import faiss_image, knn, make_csv_file, make_url, get_near_images,get_script_images, get_object_color_images
 import csv
 # # from model.retrieval import get_image_list
 app = Flask(__name__)
@@ -52,6 +52,19 @@ def get_image_by_script():
 
     return jsonify({'minidata': encoded_images_list})
 
+
+@app.route('/getbyextra', methods=["POST"])
+def get_image_by_extra():
+    data = request.get_json()
+    objects = data['object']
+    colors = data['color']
+    encoded_images = []
+    print(objects)
+    print(colors)
+    encoded_images = get_object_color_images(colors=colors, objects=objects)
+    encoded_images_list = list(encoded_images.items())
+
+    return jsonify({'minidata': encoded_images_list})
 
 
 

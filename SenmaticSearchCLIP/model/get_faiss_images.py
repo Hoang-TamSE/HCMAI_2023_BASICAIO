@@ -16,6 +16,7 @@ from model.translation import Translation
 from utils.query_db import get_image_path, get_script
 import csv
 import json
+from utils.get_file_path import get_image_path_by_index, search_objects_and_colors
 from utils.search_frame_by_script import get_image_path_by_script
 import requests
 
@@ -44,6 +45,8 @@ FAISS_TEST= Myfaiss(BIN_FILE, DICT_IMAGE_PATH, DEVICE, MODEL, Translation(), PRE
 METADATA = {}
 with open(os.path.join(ROOT, "model/metadata.json"), "r", encoding="utf-8") as file:
         METADATA = json.load(file)
+
+list_idx_image = []
 def get_script_images(text):
 
     data = get_script(text)
@@ -65,11 +68,30 @@ def get_script_images(text):
         for i in range(id-5, id+5):
             encoded_images[int(i)] = get_response_image(i)
         
-    return encoded_images    
+    return encoded_images
 
-
-
-
+def get_object_color_images(colors, objects):
+     
+    dict_objects_colors = {}
+    try:
+        for object in objects.split(','):
+            if len(object) > 0:
+                key = object.split(":")[0].strip()
+                value_object = int(object.split(":")[1].strip())
+                dict_objects_colors[key] = value_object
+        color_list = colors.split(',')
+        if len(color_list) > 0:
+            dict_objects_colors['color'] = color_list
+        else:
+            dict_objects_colors['color'] = []
+    except:
+        None
+    encoded_images = {}
+    idx = search_objects_and_colors(dict_objects_colors, list_idx_image)
+    for id in idx:
+        encoded_images[int(id)] = get_response_image(id)
+    return encoded_images
+    
 
 def make_url(idx):
         file_name = DICT_IMAGE_PATH[int(idx)].split("\\")[-1]
@@ -94,7 +116,7 @@ def get_near_images(id):
 def get_response_image(id):
     # Check if the image is already preloaded
 
-    image_name = DICT_IMAGE_PATH[id]
+    image_name = get_image_path_by_index(int(id))
     img = cv2.imread(image_name)
     ret, jpeg = cv2.imencode('.jpg', img)
     encoded_img = base64.b64encode(jpeg).decode('ascii')
@@ -142,9 +164,10 @@ def faiss_image(query):
     
     text = query
 
-    scores, idx, infos_query, images = FAISS_TEST.text_search(text, k=100)
+    scores, idx, infos_query, images = FAISS_TEST.text_search(text, k=1000)
     for id in idx:
         encoded_images[int(id)] = get_response_image(id)
+        list_idx_image.append(id)
 
     return encoded_images
 
