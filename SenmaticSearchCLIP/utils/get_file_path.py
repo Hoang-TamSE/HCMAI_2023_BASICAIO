@@ -19,7 +19,7 @@ def get_image_path_by_index(index):
     image_path = document['image_link']
 
 
-    return document
+    return image_path
 
 def search_objects_and_colors(user_input, idx):
     # Create a list to hold the conditions for the "object" column
@@ -78,4 +78,3 @@ def search_objects_and_colors(user_input, idx):
     
     return indexes[0:1000]
 
-print(get_image_path_by_index(214857))
