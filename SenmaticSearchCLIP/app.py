@@ -20,9 +20,13 @@ def get_imgPath():
     near_images = get_near_images(imgPath)
     knn_images = knn(imgPath)
 
+    near_images_list = list(near_images.items())
+    knn_images_list = list(knn_images.items())
+
+
     
     # print(encoded_images)
-    return jsonify({'data': knn_images, 'minidata':near_images})
+    return jsonify({'data': knn_images_list, 'minidata':near_images_list})
 
 @app.route('/geturl', methods=["POST"])
 def get_url():
@@ -44,7 +48,9 @@ def get_image_by_script():
     #     encoded_images.extend(encoded_images_sketch)
     # else:
     encoded_images = get_script_images(text)
-    return jsonify({'minidata': encoded_images})
+    encoded_images_list = list(encoded_images.items())
+
+    return jsonify({'minidata': encoded_images_list})
 
 
 
@@ -54,8 +60,9 @@ def get_image_by_script():
 def make_file():
     data = request.get_json()
     imgPath = data['idx_images']
-    
-    return make_csv_file(imgPath)
+    desc = make_csv_file(imgPath)
+    print(desc)
+    return jsonify({'result': desc})
 
 @app.route('/', methods=["POST"])
 def hello():
@@ -64,7 +71,7 @@ def hello():
     # sketch = data['sketch']
     # isEnabled = data['isEnabled']
     print(query)
-    encoded_images = []
+    encoded_images = {}
     # if isEnabled :
     #     encoded_images_faiss = faiss_image(query=query)
     #     encoded_images_sketch = get_image_list(sketch=sketch, caption=query)
@@ -72,8 +79,9 @@ def hello():
     #     encoded_images.extend(encoded_images_sketch)
     # else:
     encoded_images = faiss_image(query=query)
-    return jsonify({'data': encoded_images})
 
+    encoded_images_list = list(encoded_images.items())
+    return jsonify({'data': encoded_images_list})
 
 
 if __name__ == "__main__":

@@ -19,9 +19,7 @@ function QueryFormForMiniImage({ setDataListMini}) {
 
             if (response.ok) {
                 const data = await response.json();
-                console.log('okiiiiii')
-                console.log(data);
-                setDataListMini(data);
+                setDataListMini(data.minidata);
             }
         };
         fetch_image();

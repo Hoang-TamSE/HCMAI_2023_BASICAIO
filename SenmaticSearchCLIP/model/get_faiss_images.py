@@ -28,6 +28,7 @@ MODEL, PREPROCESS = clip.load("ViT-L/14", device=DEVICE)
 
 IMAGES_PATH = os.path.join(ROOT, "data")
 SESSIONID = "node04x6td5z6vkoajftg3go3sp7c84"
+preloaded_images = {}
 
 
 DICT_IMAGE_PATH = get_image_path()
@@ -37,10 +38,9 @@ data = [{"ImageID": key, "ImagePath": value} for key, value in DICT_IMAGE_PATH.i
 DICT_IMAGE_PATH_PD = pd.DataFrame(data)
 
 DICT_IMAGE_PATH_PD["video_path"] = DICT_IMAGE_PATH_PD['ImagePath'].str.split("\\", expand=True).iloc[:, -1].str.split("_", n=2).apply(lambda x: '_'.join(x[:2]))
-BIN_FILE=os.path.join(ROOT + "/config/faiss_normal_ViT_L14.bin")
+BIN_FILE=os.path.join(ROOT + "/config/faiss_normal_ViT_L14_final.bin")
 
 FAISS_TEST= Myfaiss(BIN_FILE, DICT_IMAGE_PATH, DEVICE, MODEL, Translation(), PREPROCESS)
-
 METADATA = {}
 with open(os.path.join(ROOT, "model/metadata.json"), "r", encoding="utf-8") as file:
         METADATA = json.load(file)
@@ -92,11 +92,14 @@ def get_near_images(id):
         encoded_images[int(i)] = get_response_image(int(i))
     return encoded_images    
 def get_response_image(id):
+    # Check if the image is already preloaded
+
     image_name = DICT_IMAGE_PATH[id]
     img = cv2.imread(image_name)
-
     ret, jpeg = cv2.imencode('.jpg', img)
     encoded_img = base64.b64encode(jpeg).decode('ascii')
+
+    # Encode the image
     return encoded_img
 
 def make_csv_file(list_id):
@@ -139,10 +142,10 @@ def faiss_image(query):
     
     text = query
 
-    scores, idx, infos_query, images = FAISS_TEST.text_search(text, k=500)
-
+    scores, idx, infos_query, images = FAISS_TEST.text_search(text, k=100)
     for id in idx:
         encoded_images[int(id)] = get_response_image(id)
+
     return encoded_images
 
 def knn(id_image):

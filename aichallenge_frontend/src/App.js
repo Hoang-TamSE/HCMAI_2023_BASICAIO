@@ -13,16 +13,14 @@ import QueryFormForMiniImage from "./components/query/QueryFromForMiniImage";
 
 function App() {
   const location = useLocation();
-  const [dataList, setDataList] = useState({ data: {}});
+  const [dataList, setDataList] = useState([]);
   const [clicked, setClicked] = useState("false");
   const [query, setQuery] = useState(""); // <-- Add state for the query input
-  const [imagePaths, setImagePaths] = useState([]);
   const [sketch, setSketch] = useState(null);
   const [isEnabled, setIsEnabled] = useState(true);
-  const [isAnd, setIsAnd] = useState(true);
   const [imgPath, setImgPath] = useState("");
   const [clickedImages, setClickedImages] = useState("");
-  const [dataListMini, setDataListMini] = useState({ minidata: {}});
+  const [dataListMini, setDataListMini] = useState([]);
 
 
   // const location = useLocation();
@@ -50,8 +48,10 @@ function App() {
 
     if (response.ok) {
         const data = await response.json();
-        setDataList(data)
-        setDataListMini(data)
+        setDataList(data.data)
+        setDataListMini(data.minidata)
+        console.log(data.data)
+        console.log(data.minidata)
         console.log("aaaaaaaaaaaaa")
         // setDataList(data);
         // setQuery(query);

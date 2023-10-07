@@ -40,10 +40,10 @@ function ImageListMini({ dataListMini, clicked, query, setClickedImages }) {
   const [images, setImages] = useState([]);
   useEffect(() => {
     let counter = 0;
-    const im = Object.entries(dataListMini["minidata"]).map((item, index) => {
+    const im = dataListMini.map(([id, imageUrl], index) => {
       return (
         <Col
-          key={`${item}${++counter}`}
+          key={`${id}${++counter}`}
           xs={6}
           sm={4}
           md={3}
@@ -54,21 +54,21 @@ function ImageListMini({ dataListMini, clicked, query, setClickedImages }) {
               width="100%"
               height="100%"
               effect="opacity"
-              src={`data:image/png;base64,${item[1]}`}
+              src={`data:image/png;base64,${imageUrl}`}
               alt={`Image ${counter}`}
-              onClick={() => handleImageIdx(item[0])}
+              onClick={() => handleImageIdx(id)}
             />
             <div style={{ position: "relative", bottom: "2rem", }}>
               <Link to={{
                 pathname: `/knn/${index}`,
-                search: `?clicked=true&imgPath=${item[0]}`
+                search: `?clicked=true&imgPath=${id}`
               }} target="_blank" rel="noopener noreferrer">
                 <Button style={{fontSize: '6px', padding: '5px 8px'}} className="image-button btn-sm float-start">KNN</Button>
               </Link>
             </div>
 
             <div style={{ position: "relative", bottom: "2rem"}}>
-                <Button style={{fontSize: '6px', padding: '5px 8px'}} onClick={() => handleMakeURL(item[0])} className="image-button btn-sm float-end">Show</Button>
+                <Button style={{fontSize: '6px', padding: '5px 8px'}} onClick={() => handleMakeURL(id)} className="image-button btn-sm float-end">Show</Button>
             </div>
         </Col>
       );

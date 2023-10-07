@@ -4,7 +4,7 @@ import classes from "./TextQueryForm.module.css";
 
 function TextQueryForm({ setDataList, setClicked, setQuery, sketch, isEnabled, clickedImages, setClickedImages }) {
     const [text, setText] = useState(""); // <-- Add state for the query input
-    const [noti, setNoti] = useState("");
+    const [noti, setNoti] = useState({ result: ""});
     const handleSubmission = (event) => {
         event.preventDefault();
 
@@ -19,7 +19,7 @@ function TextQueryForm({ setDataList, setClicked, setQuery, sketch, isEnabled, c
 
             if (response.ok) {
                 const data = await response.json();
-                setDataList(data)
+                setDataList(data.data)
             }
         };
         fetch_image();
@@ -38,13 +38,11 @@ function TextQueryForm({ setDataList, setClicked, setQuery, sketch, isEnabled, c
             });
             console.log(clickedImages)
             if (response.ok) {
-                const data = response
-                console.log("okiiii");
-                alert(data); // Display response in an alert
+                const data = await response.json();
+                alert(data.result);// Display response in an alert
             }else{
-                console.log("abccc")
-                const data = response
-                alert(data);
+                const data = await response.json();
+                alert(data.result);
             }
 
         };

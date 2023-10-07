@@ -43,11 +43,12 @@ function ImageList({ dataList, clicked, query, setClickedImages }) {
 
   useEffect(() => {
     let counter = 0;
-    
-    const im = Object.entries(dataList["data"]).map((item, index) => {
+    console.log(dataList)
+    const im = dataList.map(([id, imageUrl], index) => {
+      console.log(id)
       return (
         <Col
-          key={`${item}${++counter}`}
+          key={`${id}${++counter}`}
           xs={6}
           sm={4}
           md={3}
@@ -58,21 +59,21 @@ function ImageList({ dataList, clicked, query, setClickedImages }) {
               width="100%"
               height="100%"
               effect="opacity"
-              src={`data:image/png;base64,${item[1]}`}
+              src={`data:image/png;base64,${imageUrl}`}
               alt={`Image ${counter}`}
-              onClick={() => handleImageIdx(item[0])}
+              onClick={() => handleImageIdx(id)}
             />
             <div style={{ position: "relative", bottom: "3.5rem"}}>
               <Link to={{
                 pathname: `/knn/${index}`,
-                search: `?clicked=true&imgPath=${item[0]}`
+                search: `?clicked=true&imgPath=${id}`
               }} target="_blank" rel="noopener noreferrer">
                 <Button className="image-button btn-sm float-start">KNN</Button>
               </Link>
             </div>
 
             <div style={{ position: "relative", bottom: "3.5rem"}}>
-                <Button onClick={() => handleMakeURL(item[0])} className="image-button btn-sm float-end">Show</Button>
+                <Button onClick={() => handleMakeURL(id)} className="image-button btn-sm float-end">Show</Button>
             </div>
         </Col>
       );
