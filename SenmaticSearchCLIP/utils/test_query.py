@@ -104,8 +104,10 @@ def search_objects_and_colors(user_input):
     
     # Build the conditions for the "object" column based on user input
     for key, value in user_input.items():
-        condition = {f"object.{key}": value}
-        object_conditions.append(condition)
+        if key != 'color':
+            condition = {f"object.{key}": value}
+            object_conditions.append(condition)
+        
     
     # Create a list to hold the conditions for the "colors" column
     color_conditions = []
@@ -118,7 +120,7 @@ def search_objects_and_colors(user_input):
     # Combine the conditions for "object" and "colors" using "$or" operator
     search_query = {
         "$or": [
-            {"$or": object_conditions},
+            {"$and": object_conditions},
             {"$or": color_conditions}
         ]
     }
@@ -133,8 +135,8 @@ def search_objects_and_colors(user_input):
 
 # Example usage:
 user_input = {
-    "person": "14",
-    "cat": "7",
+    "person": "1",
+    "cat": "5",
     "color": ["cian", "brown"]
 }
 
