@@ -103,10 +103,14 @@ def search_objects_and_colors(user_input):
     object_conditions = []
     
     # Build the conditions for the "object" column based on user input
-    for key, value in user_input.items():
-        if key != 'color':
-            condition = {f"object.{key}": value}
-            object_conditions.append(condition)
+    # for key, value in user_input.items():
+    #     if key != 'color':
+    #         condition = {f"object.{key}": value}
+    #         object_conditions.append(condition)
+
+    for key, value in user_input["object"].items():
+        condition = {f"object.{key}": value}
+        object_conditions.append(condition)
         
     
     # Create a list to hold the conditions for the "colors" column
@@ -135,8 +139,9 @@ def search_objects_and_colors(user_input):
 
 # Example usage:
 user_input = {
-    "person": "1",
-    "cat": "5",
+    "object":{
+        "person": "1",
+        "cat": "5"},
     "color": ["cian", "brown"]
 }
 
