@@ -127,13 +127,14 @@ def search_objects_and_colors(user_input):
     results = collection.find(search_query)
     
      # Store the image_link values in a list
-    image_links = [doc["image_link"] for doc in results]
+    indexes = [doc["_id"] for doc in results]
     
-    return image_links
+    return indexes
 
 # Example usage:
 user_input = {
-    "person": "1",
+    "person": "14",
+    "cat": "7",
     "color": ["cian", "brown"]
 }
 
@@ -143,3 +144,49 @@ for image_link in results:
 
 # Close the MongoDB connection
 client.close()
+
+# from pymongo import MongoClient
+
+# client = MongoClient('mongodb://localhost:27017/')
+
+# # Access or create a database
+# database_name = 'test_db'
+# database = client[database_name]
+
+# # Access or create a collection
+# collection_name = 'test_collection'
+# collection = database[collection_name]
+
+# def search_objects_and_colors(user_input):
+#     # Construct the search query using the user_input object
+#     search_query = {
+#         "$or": [
+#             {"object": user_input},
+#             {"colors": {"$in": user_input.get("colors", [])}}
+#         ]
+#     }
+    
+#     # Execute the find operation
+#     results = collection.find(search_query)
+    
+#     # Store the image_link values in a list
+#     image_links = [doc["image_link"] for doc in results]
+    
+#     return image_links
+
+# # Example usage:
+# user_input = {
+#     "object": {
+#         "person": "1",
+#         "dog": "3",
+#         "cat": "5"
+#     },
+#     "colors": ["red", "green"]
+# }
+
+# results = search_objects_and_colors(user_input)
+# for image_link in results:
+#     print(image_link)
+
+# # Close the MongoDB connection
+# client.close()
