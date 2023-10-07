@@ -118,7 +118,7 @@ def search_objects_and_colors(user_input):
     # Combine the conditions for "object" and "colors" using "$or" operator
     search_query = {
         "$or": [
-            {"$and": object_conditions},
+            {"$or": object_conditions},
             {"$or": color_conditions}
         ]
     }
@@ -134,7 +134,7 @@ def search_objects_and_colors(user_input):
 # Example usage:
 user_input = {
     "person": "1",
-    "color": ["red", "green"]
+    "color": ["cian", "brown"]
 }
 
 results = search_objects_and_colors(user_input)
